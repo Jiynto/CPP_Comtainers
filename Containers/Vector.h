@@ -61,12 +61,16 @@ namespace containers
             return elem[i];
         }
 
+        /**
+         * \brief returns specified element of the array, and performs bounds checks.
+         * \param i index of the vector
+         * \return element at index in vector
+         */
         T& at(int i)
         {
             if(i < 0 || i >= sz)
             {
                 throw std::out_of_range{"index out of bounds."};
-
             }
             else
             {
@@ -74,7 +78,16 @@ namespace containers
             }
         }
 
-        
+        T& front() const
+        {
+            return elem[0];
+        }
+
+
+        T& back() 
+        {
+            return elem[0] + sz;
+        }
 
         /**
          * \brief const [] operator definition
@@ -87,7 +100,7 @@ namespace containers
         }
 
         /**
-         * \brief copy operatior
+         * \brief copy operator
          * \param v vector to copy from
          * \return reference to this vector
          */
