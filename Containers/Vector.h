@@ -6,7 +6,7 @@
 namespace containers
 {
     //TODO: implement comparisons
-
+    //TODO: implement Element concept
     
     template<typename T>
     class Vector
