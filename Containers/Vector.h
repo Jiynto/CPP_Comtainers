@@ -1,10 +1,13 @@
 ﻿#pragma once
 
+#include <complex>
 #include <stdexcept>
 
 namespace containers
 {
+    //TODO: implement comparisons
 
+    
     template<typename T>
     class Vector
     {
@@ -28,7 +31,7 @@ namespace containers
          * \brief copy constructor
          * \param v vector to copy from
          */
-        Vector(const Vector& v) : elem{new T[v.sz]}, sz{v.sz}
+        Vector(const Vector<T>& v) : elem{new T[v.sz]}, sz{v.sz}
         {
             for(int i = 0; i < v.sz; i++)
                 elem[i] = v[i];
@@ -38,7 +41,7 @@ namespace containers
          * \brief move constructor
          * \param v vector to move from
          */
-        Vector(Vector&& v) : elem{v.elem}, sz{v.sz}
+        Vector(Vector<T>&& v) noexcept: elem{v.elem}, sz{v.sz}
         {
             v.elem = nullptr;
             v.sz = 0;
@@ -71,7 +74,7 @@ namespace containers
          * \param v vector to copy from
          * \return reference to this vector
          */
-        Vector& operator=(const Vector& v)
+        Vector& operator=(const Vector<T>& v)
         {
             T* p = new T[v.sz];
             for(int i = 0; i < v.sz; i++)
@@ -87,7 +90,7 @@ namespace containers
          * \param v vector to move from
          * \return reference to this vector
          */
-        Vector& operator=(Vector&& v)
+        Vector& operator=(Vector<T>&& v) noexcept
         {
             elem = v.elem;
             sz = v.sz;
@@ -97,6 +100,27 @@ namespace containers
 
             return *this;
         }
+
+
+        /**
+         * \brief returns an iterator pointing to the start of the vector (though not actually rn).
+         * \return iterator pointing to start of the vector.
+         */
+        T* begin()
+        {
+            return sz ? &elem[0] : nullptr;
+        }
+
+        /**
+         * \brief returns iterator pointing to the end of the vector (though not actually rn).
+         * \return iterator pointing to the end of the vector.
+         */
+        T* end()
+        {
+            return sz ? elem[0]+sz : nullptr;
+        }
+        
+        
 
         /**
          * \brief destructor
