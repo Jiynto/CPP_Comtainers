@@ -67,7 +67,7 @@ namespace containers
         }
 
         /**
-         * \brief 
+         * \brief copy operatior
          * \param v vector to copy from
          * \return reference to this vector
          */
@@ -82,10 +82,29 @@ namespace containers
             return *this;
         }
 
-
+        /**
+         * \brief move operator
+         * \param v vector to move from
+         * \return reference to this vector
+         */
         Vector& operator=(Vector&& v)
         {
-            
+            elem = v.elem;
+            sz = v.sz;
+
+            v.elem = nullptr;
+            v.sz = 0;
+
+            return *this;
+        }
+
+        /**
+         * \brief destructor
+         */
+        ~Vector()
+        {
+            delete [] elem;
+            sz = 0;
         }
 
         /**
