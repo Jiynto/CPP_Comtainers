@@ -2,12 +2,12 @@
 
 #include <complex>
 #include <stdexcept>
+#include <vector>
 
 namespace containers
 {
     //TODO: implement comparisons
     //TODO: implement Element concept
-    
     template<typename T>
     class Vector
     {
@@ -47,6 +47,8 @@ namespace containers
             v.sz = 0;
         }
 
+        
+
  
         
         /**
@@ -58,6 +60,21 @@ namespace containers
         {
             return elem[i];
         }
+
+        T& at(int i)
+        {
+            if(i < 0 || i >= sz)
+            {
+                throw std::out_of_range{"index out of bounds."};
+
+            }
+            else
+            {
+                return elem[i];
+            }
+        }
+
+        
 
         /**
          * \brief const [] operator definition
