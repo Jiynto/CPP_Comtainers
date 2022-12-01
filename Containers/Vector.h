@@ -56,7 +56,12 @@ namespace containers
          * \param i index for array lookup
          * \return element at index in vector
          */
-        T& operator[](int i)
+        constexpr T& operator[](int i)
+        {
+            return elem[i];
+        }
+
+        constexpr const T& operator[](int i) const
         {
             return elem[i];
         }
@@ -66,39 +71,69 @@ namespace containers
          * \param i index of the vector
          * \return element at index in vector
          */
-        T& at(int i)
+        constexpr T& at(int i)
         {
             if(i < 0 || i >= sz)
             {
                 throw std::out_of_range{"index out of bounds."};
             }
-            else
-            {
-                return elem[i];
-            }
+            return elem[i];
         }
 
-        T& front() const
+        constexpr const T& at(int i) const
+        {
+            if(i < 0 || i >= sz)
+            {
+                throw std::out_of_range{"index out of bounds."};
+            }
+            return elem[i];
+        }
+
+        /**
+         * \brief gets the first element of the vector.
+         * \return the first element of the vector.
+         */
+        constexpr T& front()
         {
             return elem[0];
         }
 
+        constexpr const T& front() const
+        {
+            return elem[0];
+        }
 
-        T& back() 
+        /**
+         * \brief gets the last element of the vector.
+         * \return the last element of the vector.
+         */
+        constexpr T& back() 
         {
             return elem[0] + sz;
         }
 
-        /**
-         * \brief const [] operator definition
-         * \param i index for array lookup
-         * \return element at index in the vector
-         */
-        const T& operator[](int i) const
+        constexpr const T& back() const
         {
-            return elem[i];
+            return elem[0] + sz;
         }
 
+
+        /**
+         * \brief returns a pointer to the underlying array in memory.
+         * \return A pointer to the start of the array in memory.
+         */
+        constexpr T* data() noexcept
+        {
+            if(sz == 0) return nullptr;
+            return elem;
+        }
+        
+        const constexpr T* data() const noexcept 
+        {
+            if(sz == 0) return nullptr;
+            return elem;
+        }
+        
         /**
          * \brief copy operator
          * \param v vector to copy from
@@ -155,8 +190,14 @@ namespace containers
         /**
          * \brief destructor
          */
-        ~Vector()
+        constexpr ~Vector()
         {
+
+            for(auto i: elem)
+            {
+                
+            }
+            
             delete [] elem;
             sz = 0;
         }
