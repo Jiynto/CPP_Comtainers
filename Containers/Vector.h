@@ -6,6 +6,14 @@
 
 namespace containers
 {
+
+
+
+    
+    
+
+
+    
     //TODO: implement comparisons
     //TODO: implement Element concept
     template<typename T>
@@ -167,23 +175,29 @@ namespace containers
         }
 
 
+    
         /**
          * \brief returns an iterator pointing to the start of the vector (though not actually rn).
          * \return iterator pointing to start of the vector.
          */
-        T* begin()
+        
+        /*
+        constexpr std::iterator<T> begin() noexcept
         {
             return sz ? &elem[0] : nullptr;
         }
-
+        */
         /**
          * \brief returns iterator pointing to the end of the vector (though not actually rn).
          * \return iterator pointing to the end of the vector.
          */
+        
+        /*
         T* end()
         {
             return sz ? elem[0]+sz : nullptr;
         }
+        */
         
         
 
@@ -192,11 +206,7 @@ namespace containers
          */
         constexpr ~Vector()
         {
-
-            for(auto i: elem)
-            {
-                
-            }
+            
             
             delete [] elem;
             sz = 0;
@@ -206,7 +216,7 @@ namespace containers
          * \brief size getter
          * \return size of the vector
          */
-        int size() const
+        constexpr int size() const
         {
             return sz;
         }
