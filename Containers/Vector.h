@@ -7,10 +7,100 @@
 namespace containers
 {
 
+    template<class T>
+    class Const_Vector_Iterator
+    {
+    public:
+        using value_type = T;
 
+        Const_Vector_Iterator(){ _data = new value_type*; }
+        Const_Vector_Iterator(T* t): _data(t) {}
+        
+        Const_Vector_Iterator(Const_Vector_Iterator& iter)
+        {
+            _data = iter._data;
+        }
+
+        Const_Vector_Iterator& operator=(Const_Vector_Iterator const& iter)
+        {
+            if(this == iter) return *this;
+            _data = iter._data;
+            return *this;
+        }
+
+        constexpr ~Const_Vector_Iterator()
+        {
+            delete _data;
+        }
+
+        Const_Vector_Iterator operator+(int i)
+        {
+            return Const_Vector_Iterator(_data + i);
+        }
+
+        Const_Vector_Iterator operator-(int i)
+        {
+            return Const_Vector_Iterator(_data - i);
+        }
+
+        
+        constexpr value_type& operator*() const
+        {
+            return *_data;
+        }
+
+        constexpr value_type* operator->() const
+        {
+            return _data;
+        }
+
+        constexpr bool operator==(const Const_Vector_Iterator<T>& rhs) const
+        {
+            return compare(rhs);
+        }
+
+        bool operator!=(const Const_Vector_Iterator<T>& rhs) const
+        {
+            return !compare(rhs);
+        }
+
+        Const_Vector_Iterator& operator++()
+        {
+            increment();
+            return *this;
+        }
+
+        
+        Const_Vector_Iterator operator++(int)
+        {
+            auto temp = *this;
+            increment();
+            return temp;
+        }
+
+        Const_Vector_Iterator operator--()
+        {
+            decrement();
+            return *this;
+        }
+
+        Const_Vector_Iterator operator--(int)
+        {
+            auto temp = *this;
+            decrement();
+            return temp;
+        }
 
     
-    
+        
+    protected:
+        T* _data;
+
+        void increment() { ++_data; }
+        void decrement() { --_data; }
+        bool compare(const Const_Vector_Iterator<T>& rhs) const { return _data == rhs._data; }
+    };
+
 
 
     
@@ -181,12 +271,12 @@ namespace containers
          * \return iterator pointing to start of the vector.
          */
         
-        /*
-        constexpr std::iterator<T> begin() noexcept
+        
+        constexpr Vector<T>::iterator begin() noexcept
         {
             return sz ? &elem[0] : nullptr;
         }
-        */
+        
         /**
          * \brief returns iterator pointing to the end of the vector (though not actually rn).
          * \return iterator pointing to the end of the vector.
