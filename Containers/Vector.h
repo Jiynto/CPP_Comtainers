@@ -13,64 +13,133 @@ namespace containers
     public:
         using value_type = T;
 
+        /**
+         * \brief default constructor
+         */
         Const_Vector_Iterator(){ _data = new value_type*; }
-        Const_Vector_Iterator(T* t): _data(t) {}
-        
-        Const_Vector_Iterator(Const_Vector_Iterator& iter)
+
+        /**
+         * \brief constructor
+         * \param t starting value of the iterator
+         */
+        explicit Const_Vector_Iterator(T* t): _data(t) {}
+
+        /**
+         * \brief copy constructor
+         * \param iter this iterator with copied values
+         */
+        Const_Vector_Iterator(Const_Vector_Iterator<T>& iter)
         {
             _data = iter._data;
         }
 
-        Const_Vector_Iterator& operator=(Const_Vector_Iterator const& iter)
+        /**
+         * \brief copy assignment operator overload
+         * \param iter the right hand iterator
+         * \return this iterator with copied values. 
+         */
+        Const_Vector_Iterator<T>& operator=(Const_Vector_Iterator<T> const& iter)
         {
             if(this == iter) return *this;
             _data = iter._data;
             return *this;
         }
 
+        /**
+         * \brief Destructor
+         */
         constexpr ~Const_Vector_Iterator()
         {
             delete _data;
         }
 
+        /**
+         * \brief addition operator
+         * \param i int to add to the iterator
+         * \return a new iterator with the added value
+         */
         Const_Vector_Iterator operator+(int i)
         {
             return Const_Vector_Iterator(_data + i);
         }
 
+        /**
+         * \brief subtraction operator
+         * \param i int to subtract from the iterator
+         * \return a new iterator with the subtracted value
+         */
         Const_Vector_Iterator operator-(int i)
         {
             return Const_Vector_Iterator(_data - i);
         }
+
+        constexpr bool operator<(Const_Vector_Iterator<T>& rhs) const
+        {
+            return _data < rhs._data;
+        }
+
+        constexpr bool operator>(Const_Vector_Iterator<T>& rhs) const
+        {
+            return _data > rhs._data;
+        }
+
+        constexpr bool operator<=(Const_Vector_Iterator<T>& rhs) const
+        {
+            return _data < rhs._data || compare(rhs);
+        }
+
+        constexpr bool operator>=(Const_Vector_Iterator<T>& rhs) const
+        {
+            return _data > rhs._data || compare(rhs);
+        }
+        
 
         
         constexpr value_type& operator*() const
         {
             return *_data;
         }
-
+        
         constexpr value_type* operator->() const
         {
             return _data;
         }
 
+        /**
+         * \brief equality comparison operator
+         * \param rhs right hand side of the expression
+         * \return true if left and right are the same, otherwise false
+         */
         constexpr bool operator==(const Const_Vector_Iterator<T>& rhs) const
         {
             return compare(rhs);
         }
 
+        /**
+         * \brief inequality comparison operator
+         * \param rhs right hand side of the expression
+         * \return true if left does not equal right, else false
+         */
         bool operator!=(const Const_Vector_Iterator<T>& rhs) const
         {
             return !compare(rhs);
         }
 
+        /**
+         * \brief postfix incrementation
+         * \return the incremented iterator
+         */
         Const_Vector_Iterator& operator++()
         {
             increment();
             return *this;
         }
 
-        
+
+        /**
+         * \brief prefix incrementation
+         * \return the iterator pre incrementation
+         */
         Const_Vector_Iterator operator++(int)
         {
             auto temp = *this;
@@ -78,12 +147,20 @@ namespace containers
             return temp;
         }
 
+        /**
+         * \brief postfix decrementation
+         * \return the decremented iterator 
+         */
         Const_Vector_Iterator operator--()
         {
             decrement();
             return *this;
         }
 
+        /**
+         * \brief prefix decrementation
+         * \return the iterator pre decrementation
+         */
         Const_Vector_Iterator operator--(int)
         {
             auto temp = *this;
@@ -91,6 +168,7 @@ namespace containers
             return temp;
         }
 
+        
     
         
     protected:
