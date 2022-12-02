@@ -10,6 +10,15 @@ namespace containers
     template<class T>
     class Const_Vector_Iterator
     {
+
+    protected:
+        T* _data;
+
+        void increment() { ++_data; }
+        void decrement() { --_data; }
+        bool compare(const Const_Vector_Iterator<T>& rhs) const { return _data == rhs._data; }
+
+        
     public:
         using value_type = T;
 
@@ -58,7 +67,7 @@ namespace containers
          * \param i int to add to the iterator
          * \return a new iterator with the added value
          */
-        Const_Vector_Iterator operator+(int i)
+        Const_Vector_Iterator operator+(int const i)
         {
             return Const_Vector_Iterator(_data + i);
         }
@@ -68,38 +77,86 @@ namespace containers
          * \param i int to subtract from the iterator
          * \return a new iterator with the subtracted value
          */
-        Const_Vector_Iterator operator-(int i)
+        Const_Vector_Iterator operator-(int const i)
         {
             return Const_Vector_Iterator(_data - i);
         }
 
-        constexpr bool operator<(Const_Vector_Iterator<T>& rhs) const
+        /**
+         * \brief less than operator
+         * \param rhs right hand side of expression
+         * \return true if lhs is less than rhs, else false
+         */
+        constexpr bool operator<(Const_Vector_Iterator<T> const& rhs) const
         {
             return _data < rhs._data;
         }
 
-        constexpr bool operator>(Const_Vector_Iterator<T>& rhs) const
+        /**
+         * \brief greater than operator
+         * \param rhs right hand side of expression
+         * \return true if lhs is greater than rhs, else false
+         */
+        constexpr bool operator>(Const_Vector_Iterator<T> const& rhs) const
         {
             return _data > rhs._data;
         }
-
-        constexpr bool operator<=(Const_Vector_Iterator<T>& rhs) const
+        
+        /**
+         * \brief less than or equal operator
+         * \param rhs right hand side of expression
+         * \return true if lhs is less than or equal to rhs, else false
+         */
+        constexpr bool operator<=(Const_Vector_Iterator<T> const& rhs) const
         {
             return _data < rhs._data || compare(rhs);
         }
 
-        constexpr bool operator>=(Const_Vector_Iterator<T>& rhs) const
+        /**
+         * \brief greater than or equal operator
+         * \param rhs right hand side of expression
+         * \return true if lhs is greater than or equal to rhs, else false
+         */
+        constexpr bool operator>=(Const_Vector_Iterator<T> const& rhs) const
         {
             return _data > rhs._data || compare(rhs);
         }
-        
 
-        
+        /**
+         * \brief compound addition assignment operator
+         * \param i int to be added to pointer
+         * \return this iterator after addition.
+         */
+        Const_Vector_Iterator operator+=(int const& i)
+        {
+            _data += i;
+            return *this;
+        }
+
+        /**
+         * \brief compound subtraction assignment operator
+         * \param i int to be subtracted to pointer
+         * \return this iterator after subtraction.
+         */
+        Const_Vector_Iterator operator-=(int const& i)
+        {
+            _data -= i;
+            return *this;
+        }
+
+        /**
+         * \brief dereference operator
+         * \return dereferenced pointer to current element
+         */
         constexpr value_type& operator*() const
         {
             return *_data;
         }
-        
+
+        /**
+         * \brief dereference operator
+         * \return pointer to current element
+         */
         constexpr value_type* operator->() const
         {
             return _data;
@@ -168,15 +225,18 @@ namespace containers
             return temp;
         }
 
-        
+        /**
+         * \brief returns the element found at this plus offset
+         * \param i an offset to the current position
+         * \return the element found at that offset
+         */
+        value_type& operator[](int const i)
+        {
+            return *(_data + i);
+        }
     
         
-    protected:
-        T* _data;
 
-        void increment() { ++_data; }
-        void decrement() { --_data; }
-        bool compare(const Const_Vector_Iterator<T>& rhs) const { return _data == rhs._data; }
     };
 
 
